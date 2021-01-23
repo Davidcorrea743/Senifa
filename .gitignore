@@ -1,1 +1,5 @@
 *.pyc
+Datos/*.pdf
+Datos/*.ods
+VBox/
+Informacion_RRHH_*
