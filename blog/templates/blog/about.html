@@ -1,0 +1,39 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+	<article class="media content-section">
+		  <div class="media-body">
+		    <div class="article-metadata">
+		      <a class="mr-2" href="#"></a>
+		      <div>
+		      		<h1> Solicitud de Constancias </h1>
+					<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'login' %}">Solicitar</a>
+					{% if user.is_authenticated %}
+						<a href="{% url  %}"></a>
+
+	        		{% else %}
+		          	<a class="boton_personalizado" href="{% url 'login' %}">Inicia</a>
+		          	<a class="boton_personalizado" href="{% url 'register' %}">Registrate</a>
+	          		{% endif %}
+		      </div>
+		    </div>
+		  </div>
+	</article>
+
+
+	<article class="media content-section">
+		  <div class="media-body">
+		    <div class="article-metadata">
+		      <a class="mr-2" href="#"></a>
+		      <div>
+		      		<h1> Solicitud de Recibos </h1>
+					<a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'login' %}">Solicitar</a>
+		      </div>
+		    </div>
+		  </div>
+	</article>
+
+
+{% endblock content %}
+
+
