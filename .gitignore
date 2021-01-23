@@ -1,1 +1,4 @@
 *.pyc
+Notebook/Datos/*.pdf
+Notebook/Datos/*.ods
+Notebook/Datos/Informacion*
