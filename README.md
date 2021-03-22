@@ -14,6 +14,7 @@ Instalamos los paquetes necesarios para tener Development Mariadb Server y Clien
 Creamos el enlace virtual al directorio de servidores web para phpmyadmin con el nombre de database.
 
 ``cd /var/www/html``
+
 ``sudo ln -s /usr/share/phpmyadmin database``
 
 ### Mariadb como Database.
@@ -22,21 +23,30 @@ Abrimos el servidor Mariadb para crear las bases de datos y los usuarios necesar
 ``sudo mariadb -u root -p``
 
 ``CREATE DATABASE tramites;``
+
 ``DROP USER 'senifa'@'localhost';``
+
 ``DROP USER 'phpmyadmin'@'localhost';``
+
 ``FLUSH PRIVILEGES;``
 
 ``CREATE USER 'phpmyadmin'@'localhost' IDENTIFIED BY 'password';``
+
 ``CREATE USER 'senifa'@'localhost' IDENTIFIED BY 'password';``
+
 ``GRANT ALL PRIVILEGES ON *.* TO 'phpmyadmin'@'localhost';``
+
 ``GRANT ALL PRIVILEGES ON tramites.* TO 'senifa'@'localhost';``
+
 ``FLUSH PRIVILEGES;``
+
 ``exit``
 
 ### Configuración del Proyecto Django.
 Asumiendo el proyecto esta en la carpeta $HOME con nombre django_project copiamos el proyecto a la carpeta /opt con el nombre Tramites.
 
 ``sudo rsync -ah ~/django_project /opt/Tramites``
+
 ``cd /opt/Tramites``
 
 Cambiamos los permisos a la carpeta Tramites.
@@ -46,14 +56,19 @@ Cambiamos los permisos a la carpeta Tramites.
 Instalamos y creamos el entorno virtual con virtualenv.
 
 ``python3.8 -m pip install virtualenv``
+
 ``python3.8 -m virtualenv venv``
 
+para python3.6
+
 ``python3.6 -m pip install virtualenv``
+
 ``python3.6 -m virtualenv venv``
 
 Activamos el entorno virtual e instalamos los paquetes necesarios.
 
 ``source venv/bin/activate``
+
 ``venv/bin/python3.8 -m pip install django django-crispy-forms pillow mysqlclient gunicorn xhtml2pdf --no-color``
 
 ``venv/bin/python3.6 -m pip install django django-crispy-forms pillow mysqlclient gunicorn xhtml2pdf --no-color``
@@ -61,7 +76,9 @@ Activamos el entorno virtual e instalamos los paquetes necesarios.
 Realizamos las migraciones en la base de datos y creamos el superusuario Senifa.
 
 ``./manage.py makemigrations``
+
 ``./manage.py migrate``
+
 ``./manage.py createsuperuser --username Senifa --email '' --no-color``
 
 ### Configuraciones del servidor Nginx y Gunicorn.
@@ -74,13 +91,17 @@ Actualizamos el nombre del servidor.
 Creamos los Enlaces Virtuales necesarios.
 
 ``cd /etc/nginx/sites-available/``
+
 ``sudo ln -s /opt/Tramites/etc/nginx/sites-available/tramites``
 
 ``cd ../sites-enabled/``
+
 ``sudo ln -s ../sites-available/tramites``
 
 ``cd /etc/systemd/system``
+
 ``sudo ln -s /opt/Tramites/etc/systemd/system/gunicorn.service``
+
 ``sudo ln -s /opt/Tramites/etc/systemd/system/gunicorn.socket``
 
 Cambiamos el usuario de la carpeta Tramites del $USER a usuario de nginx www-data.
@@ -90,12 +111,19 @@ Cambiamos el usuario de la carpeta Tramites del $USER a usuario de nginx www-dat
 Verificamos configuracion de Nginx y recargamos cambios al sistema, verificando si existe algun error.
 
 ``sudo nginx -t``
+
 ``sudo systemctl stop gunicorn.service``
+
 ``sudo systemctl daemon-reload``
+
 ``sudo systemctl enable --now gunicorn.socket``
+
 ``sudo systemctl restart nginx.service``
+
 ``sudo systemctl status nginx.service``
+
 ``sudo systemctl status gunicorn.socket``
+
 ``sudo systemctl status gunicorn.service``
 
 ### Comprobación del aplicativo.
