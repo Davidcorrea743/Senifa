@@ -10,11 +10,15 @@ Instalamos los paquetes necesarios para tener DEVOLEMENT MARIADB Server y Client
 
 ``sudo aptitude install php7.4 php7.4-bz2 php7.4-curl php7.4-cli php7.4-gd php7.4-json php7.4-mysql php7.4-mbstring php7.4-readline php7.4-opcache php7.4-xml php7.4-zip``
 
-# Creamos el enlace virtual al directorio de servidores web para phpmyadmin con el nombre de database
-cd /var/www/html
-sudo ln -s /usr/share/phpmyadmin database
+### phpmyadmin para administar la database
+Creamos el enlace virtual al directorio de servidores web para phpmyadmin con el nombre de database
 
-# Abrimos el servidor Mariadb para crear las bases de datos y los usuarios necesarios.
+``cd /var/www/html
+sudo ln -s /usr/share/phpmyadmin database``
+
+### Mariadb como database
+Abrimos el servidor Mariadb para crear las bases de datos y los usuarios necesarios.
+
 ``sudo mariadb -u root -p``
 
 ``CREATE DATABASE tramites;
@@ -29,36 +33,40 @@ GRANT ALL PRIVILEGES ON tramites.* TO 'senifa'@'localhost';
 FLUSH PRIVILEGES;
 exit``
 
-# Asumiendo el proyecto esta en la carpeta $HOME con nombre django_project copiamos el proyecto a la carpeta /opt con el nombre Tramites.
+### Django Proyecto.
+Asumiendo el proyecto esta en la carpeta $HOME con nombre django_project copiamos el proyecto a la carpeta /opt con el nombre Tramites.
+
 ``sudo rsync -ah ~/django_project /opt/Tramites
 cd /opt/Tramites``
 
-# Cambiamos los permisos a la carpeta Tramites
+Cambiamos los permisos a la carpeta Tramites
 ``sudo chown -Rf 1000:1000 /opt/Tramites``
 
-# Instalamos y creamos el entorno virtual con virtualenv
+Instalamos y creamos el entorno virtual con virtualenv
 ``python3.8 -m pip install virtualenv
 python3.8 -m virtualenv venv``
 
 ``python3.6 -m pip install virtualenv
 python3.6 -m virtualenv venv``
 
-# Activamos el entorno virtual e instalamos los paquetes necesarios
+Activamos el entorno virtual e instalamos los paquetes necesarios
 ``source venv/bin/activate
 venv/bin/python3.8 -m pip install django django-crispy-forms pillow mysqlclient gunicorn xhtml2pdf --no-color``
 
 ``venv/bin/python3.6 -m pip install django django-crispy-forms pillow mysqlclient gunicorn xhtml2pdf --no-color``
 
-# Realizamos las migraciones en la base de datos y creamos el superusuario Senifa
+Realizamos las migraciones en la base de datos y creamos el superusuario Senifa
 ``./manage.py makemigrations
 ./manage.py migrate
 ./manage.py createsuperuser --username Senifa --email '' --no-color``
 
-# Actualizamos el nombre del servidor
+### Configuraciones del servidor Nginx y Gunicorn.
+Actualizamos el nombre del servidor
+
 ``sudo nano etc/hosts
 127.0.0.1  localhost   senifa.web``
 
-# Creamos los Enlaces Virtuales necesarios.
+Creamos los Enlaces Virtuales necesarios.
 ``cd /etc/nginx/sites-available/
 sudo ln -s /opt/Tramites/etc/nginx/sites-available/tramites``
 
@@ -69,10 +77,10 @@ sudo ln -s ../sites-available/tramites``
 sudo ln -s /opt/Tramites/etc/systemd/system/gunicorn.service
 sudo ln -s /opt/Tramites/etc/systemd/system/gunicorn.socket``
 
-# Cambiamos el usuario de la carpeta Tramites del $USER a usuario de nginx www-data.
+Cambiamos el usuario de la carpeta Tramites del $USER a usuario de nginx www-data.
 ``sudo chown -Rf www-data:www-data /opt/Tramites``
 
-# Verificamos configuracion de Nginx y recargamos cambios al sistema, verificando si existe algun error.
+Verificamos configuracion de Nginx y recargamos cambios al sistema, verificando si existe algun error.
 ``sudo nginx -t
 sudo systemctl stop gunicorn.service
 sudo systemctl daemon-reload
@@ -81,3 +89,6 @@ sudo systemctl restart nginx.service
 sudo systemctl status nginx.service
 sudo systemctl status gunicorn.socket
 sudo systemctl status gunicorn.service``
+
+### Comprobación del aplicativo.
+``http://senifa.web:8002/Tramites``
