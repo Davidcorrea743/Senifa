@@ -1,10 +1,13 @@
-# README para configuración del aplicativo de prueba de generacion de Constancias y Recibos de pago, version 0.1 Marzo del 2021.
+# README
+>Para configuración del aplicativo de prueba de generacion de Constancias y Recibos de pago, version 0.1 Marzo del 2021.
 
 ### Instalacion de Paquetes en Linux.
 >Instalamos los paquetes necesarios para tener DEVOLEMENT MARIADB Server y Cliente NGINX PHP PHPMYADMIN PIP
 
 ``sudo aptitude install default-libmysqlclient-dev build-essential libldap2-dev mariadb-server-10.3 mariadb-client-10.3 nginx phpmyadmin python3-dev python3-pip``
+>
 ``sudo aptitude install php7.2 php7.2-bz2 php7.2-curl php7.2-cli php7.2-gd php7.2-json php7.2-mysql php7.2-mbstring php7.2-readline php7.2-opcache php7.2-xml php7.2-zip``
+>
 ``sudo aptitude install php7.4 php7.4-bz2 php7.4-curl php7.4-cli php7.4-gd php7.4-json php7.4-mysql php7.4-mbstring php7.4-readline php7.4-opcache php7.4-xml php7.4-zip``
 
 # Creamos el enlace virtual al directorio de servidores web para phpmyadmin con el nombre de database
