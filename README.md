@@ -2,7 +2,7 @@
 >Para configuración del aplicativo de prueba de generacion de Constancias y Recibos de pago, version 0.1 Marzo del 2021. Maintained by <a rel="" href="https://github.com/davidcorrea743">David Correa</a> and <a rel="" href="https://github.com/josean7link">Josean Martinez</a>.
 
 ### Instalacion de Paquetes en Linux.
-Instalamos los paquetes necesarios para tener Devolemnt Mariadb Server y Cliente Nginx Python3/pip PHP/phpmyadmin
+Instalamos los paquetes necesarios para tener Development Mariadb Server y Cliente Nginx Python3/pip PHP/phpmyadmin
 
 ``sudo aptitude install default-libmysqlclient-dev build-essential libldap2-dev mariadb-server-10.3 mariadb-client-10.3 nginx phpmyadmin python3-dev python3-pip``
 
